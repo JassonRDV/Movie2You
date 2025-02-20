@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Movie2you</string>
+    <string name="comentarios">Comentários</string>
+    <string name="sinopse_indisponivel">Sinopse Indisponível</string>
+    <string name="sinopse">Sinopse</string>
+    <string name="mais_como_este">Mais como este</string>
+    <string name="titulo">Título</string>
+    <string name="generos_indisponiveis">Gêneros Indisponíveis</string>
+    <string name="imagem_de_capa">Imagem de capa</string>
 </resources>

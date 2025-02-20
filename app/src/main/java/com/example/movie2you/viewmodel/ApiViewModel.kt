@@ -1,10 +1,11 @@
 package com.example.movie2you.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie2you.data.api.ApiRepository
 import com.example.movie2you.data.api.Movie
+import com.example.movie2you.data.api.MovieDetailsResponse
+import com.example.movie2you.data.api.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,9 +16,16 @@ import javax.inject.Inject
 
 data class ApiState(
     val nowPlaying: List<Movie> = emptyList(),
+    val topRated: List<Movie> = emptyList(),
+    val upcoming: List<Movie> = emptyList(),
+    val popular: List<Movie> = emptyList(),
+    val movieDetails: MovieDetailsResponse? = null,
+    val similarMovies: List<Movie> = emptyList(),
+    val movieReviews: List<Review> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
 )
+
 @HiltViewModel
 class ApiViewModel @Inject constructor(
     private val apiRepository: ApiRepository
@@ -39,10 +47,16 @@ class ApiViewModel @Inject constructor(
                 )
             }
             try {
-                val response = apiRepository.discoverMovies()
+                val responseNowPlaying = apiRepository.getNowPlaying()
+                val responseTopRated = apiRepository.getTopRated()
+                val responseUpcoming = apiRepository.getUpcoming()
+                val responsePopular = apiRepository.getPopular()
                 _uiState.update { currentState ->
                     currentState.copy(
-                        nowPlaying = response.results
+                        nowPlaying = responseNowPlaying.results,
+                        topRated = responseTopRated.results,
+                        upcoming = responseUpcoming.results,
+                        popular = responsePopular.results
                     )
                 }
             } catch (e: Exception) {
@@ -58,15 +72,42 @@ class ApiViewModel @Inject constructor(
                     )
                 }
             }
-            // TODO não esquecer de deletar
-//            log()
         }
     }
 
-    // TODO não esquecer de deletar
-    private fun log() {
-        Log.d("ApiViewModel", "uiState: ${_uiState.value}")
-        Log.d("ApiViewModel", "uiState: ${uiState.value}")
+    fun getMovieDetails(movieId: Int) {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isLoading = true,
+                    error = null
+                )
+            }
+            try {
+                val responseMovieDetails = apiRepository.getMovieDetails(movieId)
+                val responseSimilarMovies = apiRepository.getSimilarMovies(movieId)
+                val responseMovieReviews = apiRepository.getMovieReviews(movieId)
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        movieDetails = responseMovieDetails,
+                        similarMovies = responseSimilarMovies.results,
+                        movieReviews = responseMovieReviews.results
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        error = "Erro ao obter filmes: ${e.message}"
+                    )
+                }
+            } finally {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        isLoading = false
+                    )
+                }
+            }
+        }
     }
 }
 
