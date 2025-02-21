@@ -8,11 +8,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.movie2you.R
+import com.example.movie2you.ui.components.MoviesByCategory
 import com.example.movie2you.viewmodel.ApiState
 import com.example.movie2you.viewmodel.ApiViewModel
 import java.util.Locale
@@ -40,10 +46,11 @@ fun DetailScreen(
     navController: NavHostController
 ) {
     Column(
-        modifier = Modifier.background(color = Color(0XFF1C1A29))
+        modifier = Modifier
     ) {
         MovieBanner(
             uiState = uiState,
+            navController = navController,
             modifier = Modifier
                 .weight(0.8f)
         )
@@ -59,7 +66,8 @@ fun DetailScreen(
 @Composable
 private fun MovieBanner(
     uiState: ApiState,
-    modifier: Modifier
+    modifier: Modifier,
+    navController: NavHostController
 ) {
     Box(
         modifier = modifier
@@ -70,6 +78,19 @@ private fun MovieBanner(
                 )
             )
     ) {
+        IconButton(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(12.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                contentDescription = stringResource(R.string.voltar),
+                tint = Color.White,
+                modifier = Modifier.size(100.dp)
+            )
+        }
         AsyncImage(
             model = "https://image.tmdb.org/t/p/original/${uiState.movieDetails?.backdropPath}",
             contentDescription = "Imagem de capa",
@@ -91,8 +112,6 @@ private fun MovieBanner(
                     text = uiState.movieDetails?.title ?: stringResource(R.string.titulo),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
                     fontSize = 18.sp,
                     modifier = Modifier.padding(bottom = 2.dp)
                 )
@@ -132,6 +151,7 @@ private fun MovieBanner(
             }
             Card(
                 modifier = Modifier
+                    .padding(start = 8.dp)
                     .width(50.dp)
                     .weight(1f)
             ) {
@@ -161,92 +181,111 @@ private fun MovieDetail(
             .padding(horizontal = 20.dp)
     ) {
         item {
-            Text(
-                text = stringResource(R.string.sinopse),
-                color = Color.White,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(
-                text = uiState.movieDetails?.overview ?: stringResource(R.string.sinopse_indisponivel),
-                color = Color.White,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(vertical = 20.dp)
-            )
+            Synopsis(uiState)
         }
         item {
-            Text(
-                text = stringResource(R.string.comentarios),
-                color = Color.White,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 20.dp)
+            Comments(uiState)
+        }
+        item {
+            MoreLikeThis(uiState, viewModel, navController)
+        }
+    }
+}
+
+@Composable
+private fun Synopsis(uiState: ApiState) {
+    Text(
+        text = stringResource(R.string.sinopse),
+        color = Color.White,
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(top = 10.dp)
+    )
+    Text(
+        text = uiState.movieDetails?.overview ?: stringResource(R.string.sinopse_indisponivel),
+        color = Color.White,
+        maxLines = 3,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier.padding(vertical = 20.dp)
+    )
+}
+
+@Composable
+private fun Comments(uiState: ApiState) {
+    Text(
+        text = stringResource(R.string.comentarios),
+        color = Color.White,
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(vertical = 20.dp)
+    )
+    Box(
+        modifier = Modifier
+            .border(
+                1.dp,
+                color = Color(0XFF000000),
+                shape = RoundedCornerShape(20.dp)
             )
-            Box(
-                modifier = Modifier
-                    .border(
-                        2.dp,
-                        color = Color(0XFF000000),
-                        shape = RoundedCornerShape(20.dp)
-                    )
-                    .clip(RoundedCornerShape(20.dp))
-            ) {
-                LazyColumn(
+            .clip(RoundedCornerShape(20.dp))
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .aspectRatio(0.9f)
+                .background(color = Color(0XFF242135))
+                .clip(RoundedCornerShape(12.dp))
+                .padding(20.dp)
+        ) {
+            items(uiState.movieReviews.size) { item ->
+                val review = uiState.movieReviews[item]
+                Column(
                     modifier = Modifier
-                        .aspectRatio(0.9f)
-                        .background(color = Color(0XFF242135))
-                        .clip(RoundedCornerShape(12.dp))
-                        .padding(20.dp)
+                        .padding(
+                            bottom = 20.dp
+                        )
                 ) {
-                    items(uiState.movieReviews.size) { item ->
-                        val review = uiState.movieReviews[item]
-                        Column(
-                            modifier = Modifier
-                                .padding(
-                                    bottom = 20.dp
-                                )
-                        ) {
-                            Text(
-                                text = review.author,
-                                color = Color.White,
-                                modifier = Modifier
-                                    .padding(
-                                        vertical = 4.dp
-                                    )
+                    Text(
+                        text = review.author,
+                        color = Color.White,
+                        modifier = Modifier
+                            .padding(
+                                vertical = 4.dp
                             )
-                            Text(
-                                text = review.content,
-                                color = Color.LightGray,
-                                maxLines = 2,
-                                modifier = Modifier
-                                    .padding(
-                                        vertical = 4.dp
-                                    )
+                    )
+                    Text(
+                        text = review.content,
+                        color = Color.LightGray,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(
+                                vertical = 4.dp
                             )
-                            HorizontalDivider(
-                                color = Color.LightGray,
-                                thickness = 1.dp
-                            )
-                        }
-                    }
+                    )
+                    HorizontalDivider(
+                        color = Color.LightGray,
+                        thickness = 1.dp
+                    )
                 }
             }
         }
-        item {
-            Text(
-                text = stringResource(R.string.mais_como_este),
-                color = Color.White,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 20.dp)
-            )
-            MoviesByCategory(
-                uiState = uiState.similarMovies,
-                viewModel = viewModel,
-                navController = navController
-            )
-
-        }
     }
+}
+
+@Composable
+private fun MoreLikeThis(
+    uiState: ApiState,
+    viewModel: ApiViewModel,
+    navController: NavHostController
+) {
+    Text(
+        text = stringResource(R.string.mais_como_este),
+        color = Color.White,
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(vertical = 20.dp)
+    )
+    MoviesByCategory(
+        uiState = uiState.similarMovies,
+        viewModel = viewModel,
+        navController = navController
+    )
 }

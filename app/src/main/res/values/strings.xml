@@ -7,4 +7,5 @@
     <string name="titulo">Título</string>
     <string name="generos_indisponiveis">Gêneros Indisponíveis</string>
     <string name="imagem_de_capa">Imagem de capa</string>
+    <string name="voltar">voltar</string>
 </resources>
