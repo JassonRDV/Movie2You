@@ -1,5 +1,6 @@
 package com.example.movie2you.data.api
 
+import com.example.movie2you.util.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -8,7 +9,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -26,8 +26,6 @@ object NetworkModule {
             .addInterceptor(loggingInterceptor)
             .build()
     }
-
-    private const val BASE_URL = "https://api.themoviedb.org/3/"
 
     @Provides
     @Singleton

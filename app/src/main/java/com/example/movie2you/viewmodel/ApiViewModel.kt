@@ -1,7 +1,9 @@
 package com.example.movie2you.viewmodel
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movie2you.R
 import com.example.movie2you.data.api.ApiRepository
 import com.example.movie2you.data.model.Movie
 import com.example.movie2you.data.model.MovieDetailsResponse
@@ -33,8 +35,11 @@ data class ApiState(
     val similarMovies: List<Movie> = emptyList(),
     val movieReviews: List<Review> = emptyList(),
     val isLoading: Boolean = false,
-    val error: ApiNetworkError? = null
+    val error: ApiNetworkError? = null,
+    val formattedRuntime: String = "",
+    val movieGenres: String = ""
 )
+
 @HiltViewModel
 class ApiViewModel @Inject constructor(
     private val apiRepository: ApiRepository
@@ -47,12 +52,11 @@ class ApiViewModel @Inject constructor(
         getDiscoverMovies()
     }
 
-    private fun <T> safeApiCall(action: suspend () -> T, onSuccess: (T) -> Unit) {
+    private fun safeApiCall(action: suspend () -> Unit) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                val result = action()
-                onSuccess(result)
+                action()
             } catch (e: Exception) {
                 val apiError = when (e) {
                     is IOException -> ApiNetworkError.NetworkError("Erro de conexão: ${e.message}")
@@ -67,40 +71,71 @@ class ApiViewModel @Inject constructor(
     }
 
     fun getDiscoverMovies() {
-        safeApiCall({
+        safeApiCall {
             coroutineScope {
                 val nowPlaying = async { apiRepository.getNowPlaying() }
                 val topRated = async { apiRepository.getTopRated() }
                 val upcoming = async { apiRepository.getUpcoming() }
                 val popular = async { apiRepository.getPopular() }
 
-                ApiState(
-                    nowPlaying = nowPlaying.await().results,
-                    topRated = topRated.await().results,
-                    upcoming = upcoming.await().results,
-                    popular = popular.await().results
-                )
+                _uiState.update {
+                    it.copy(
+                        nowPlaying = nowPlaying.await().results,
+                        topRated = topRated.await().results,
+                        upcoming = upcoming.await().results,
+                        popular = popular.await().results
+                    )
+                }
             }
-        }) { newState ->
-            _uiState.value = newState
         }
     }
 
     fun getMovieDetails(movieId: Int) {
-        safeApiCall({
+        safeApiCall {
             coroutineScope {
                 val movieDetails = async { apiRepository.getMovieDetails(movieId) }
                 val similarMovies = async { apiRepository.getSimilarMovies(movieId) }
                 val movieReviews = async { apiRepository.getMovieReviews(movieId) }
 
-                ApiState(
-                    movieDetails = movieDetails.await(),
-                    similarMovies = similarMovies.await().results,
-                    movieReviews = movieReviews.await().results
-                )
+                _uiState.update {
+                    it.copy(
+                        movieDetails = movieDetails.await(),
+                        similarMovies = similarMovies.await().results,
+                        movieReviews = movieReviews.await().results
+                    )
+                }
+                formattedRuntime()
+                movieGenres()
             }
-        }) { newState ->
-            _uiState.value = newState
+        }
+    }
+
+    private fun formattedRuntime() {
+        val runtimeInMinutes = _uiState.value.movieDetails?.runtime ?: 0
+        val hours = runtimeInMinutes / 60
+        val minutes = runtimeInMinutes % 60
+        val formattedRuntime = when {
+            hours > 0 && minutes > 0 -> "$hours hora(s) $minutes minuto(s)"
+            hours > 0 -> "$hours hora(s)"
+            minutes > 0 -> "$minutes minuto(s)"
+            else -> "Tempo Indisponível"
+        }
+        _uiState.update {
+            it.copy(
+                formattedRuntime = formattedRuntime
+            )
+        }
+    }
+
+    private fun movieGenres() {
+        val genres =
+            uiState.value.movieDetails?.genres?.joinToString(separator = " • ") { it.name }
+                ?: ""
+
+        _uiState.update {
+            it.copy(
+                movieGenres = genres
+            )
         }
     }
 }

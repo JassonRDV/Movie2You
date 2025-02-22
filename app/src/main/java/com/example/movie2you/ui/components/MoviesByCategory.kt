@@ -1,6 +1,5 @@
 package com.example.movie2you.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +16,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.movie2you.MovieDestinations
 import com.example.movie2you.data.model.Movie
+import com.example.movie2you.util.buildImageUrl
 import com.example.movie2you.viewmodel.ApiViewModel
 
 @Composable
@@ -31,7 +31,6 @@ fun MoviesByCategory(
         items(
             uiState
         ) { movie ->
-            val imageUrl = "https://image.tmdb.org/t/p/w185${movie.posterPath}"
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -45,11 +44,8 @@ fun MoviesByCategory(
                     )
             ) {
                 AsyncImage(
-                    model = imageUrl,
+                    model = movie.posterPath?.buildImageUrl(),
                     contentDescription = movie.title,
-                    onError = {
-                        Log.e("AsyncImage", "Erro ao carregar imagem")
-                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(2f / 3f),

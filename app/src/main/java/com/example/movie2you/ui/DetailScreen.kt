@@ -33,8 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.movie2you.MovieDestinations
 import com.example.movie2you.R
 import com.example.movie2you.ui.components.MoviesByCategory
+import com.example.movie2you.util.buildImageUrl
 import com.example.movie2you.viewmodel.ApiState
 import com.example.movie2you.viewmodel.ApiViewModel
 import java.util.Locale
@@ -51,8 +53,7 @@ fun DetailScreen(
         MovieBanner(
             uiState = uiState,
             navController = navController,
-            modifier = Modifier
-                .weight(0.8f)
+            modifier = Modifier.weight(0.8f)
         )
         MovieDetail(
             uiState = uiState,
@@ -78,93 +79,125 @@ private fun MovieBanner(
                 )
             )
     ) {
-        IconButton(
-            onClick = { navController.popBackStack() },
+        ReturnHomeScreen(
+            navController,
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(12.dp)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = stringResource(R.string.voltar),
-                tint = Color.White,
-                modifier = Modifier.size(100.dp)
-            )
-        }
-        AsyncImage(
-            model = "https://image.tmdb.org/t/p/original/${uiState.movieDetails?.backdropPath}",
-            contentDescription = "Imagem de capa",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
-                .alpha(0.3f)
         )
+        MovieBackdrop(uiState)
         Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(12.dp)
+                .padding(20.dp)
         ) {
             Column(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                Text(
-                    text = uiState.movieDetails?.title ?: stringResource(R.string.titulo),
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(bottom = 2.dp)
-                )
-                val runtimeInMinutes = uiState.movieDetails?.runtime ?: 0
-                val hours = runtimeInMinutes / 60
-                val minutes = runtimeInMinutes % 60
-                val formattedRuntime = when {
-                    hours > 0 && minutes > 0 -> "$hours hora(s) $minutes minuto(s)"
-                    hours > 0 -> "$hours hora(s)"
-                    minutes > 0 -> "$minutes minuto(s)"
-                    else -> "Tempo Indisponível"
-                }
-                Text(
-                    text = formattedRuntime,
-                    color = Color.White,
-                    fontSize = 12.sp
-                )
-                val genres =
-                    uiState.movieDetails?.genres?.joinToString(separator = " • ") { it.name }
-                        ?: stringResource(R.string.generos_indisponiveis)
-                Text(
-                    text = genres,
-                    color = Color.White,
-                    fontSize = 12.sp
-
-                )
-                Text(
-                    text =
-                    String.format(
-                        Locale.US,
-                        "⭐ %.1f / 10 Média de Votos",
-                        uiState.movieDetails?.voteAverage ?: 0.0
-                    ),
-                    color = Color.LightGray,
-                    fontSize = 12.sp
-                )
+                MovieTitle(uiState)
+                MovieRuntime(uiState)
+                MovieGenres(uiState)
+                MovieVoteAverage(uiState)
             }
-            Card(
+            MoviePoster(
+                uiState = uiState,
                 modifier = Modifier
+                    .weight(1f)
                     .padding(start = 8.dp)
                     .width(50.dp)
-                    .weight(1f)
-            ) {
-                AsyncImage(
-                    model = "https://image.tmdb.org/t/p/original/${uiState.movieDetails?.posterPath}",
-                    contentDescription = stringResource(R.string.imagem_de_capa),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .aspectRatio(0.783f)
-                        .fillMaxSize()
-                )
-            }
+            )
         }
+    }
+}
+
+@Composable
+private fun MovieBackdrop(uiState: ApiState) {
+    AsyncImage(
+        model = uiState.movieDetails?.backdropPath?.buildImageUrl(),
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .fillMaxSize()
+            .alpha(0.3f)
+    )
+}
+
+@Composable
+private fun ReturnHomeScreen(navController: NavHostController, modifier: Modifier) {
+    IconButton(
+        onClick = { navController.navigate(route = MovieDestinations.MAIN_ROUTE) },
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+            contentDescription = stringResource(R.string.voltar),
+            tint = Color.White,
+            modifier = Modifier.size(100.dp)
+        )
+    }
+}
+
+@Composable
+private fun MovieTitle(uiState: ApiState) {
+    Text(
+        text = uiState.movieDetails?.title ?: stringResource(R.string.titulo),
+        color = Color.White,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        modifier = Modifier.padding(bottom = 2.dp)
+    )
+}
+
+@Composable
+private fun MovieRuntime(uiState: ApiState) {
+    Text(
+        text = uiState.formattedRuntime,
+        color = Color.White,
+        fontSize = 12.sp
+    )
+}
+
+@Composable
+private fun MovieGenres(uiState: ApiState) {
+    Text(
+        text = uiState.movieGenres,
+        color = Color.White,
+        fontSize = 12.sp
+
+    )
+}
+
+@Composable
+private fun MovieVoteAverage(uiState: ApiState) {
+    Text(
+        text =
+        String.format(
+            Locale.US,
+            "⭐ %.1f / 10 Média de Votos",
+            uiState.movieDetails?.voteAverage ?: 0.0
+        ),
+        color = Color.LightGray,
+        fontSize = 12.sp
+    )
+}
+
+@Composable
+private fun MoviePoster(
+    uiState: ApiState,
+    modifier: Modifier
+) {
+    Card(
+        modifier = modifier
+    ) {
+        AsyncImage(
+            model = uiState.movieDetails?.posterPath?.buildImageUrl(),
+            contentDescription = uiState.movieDetails?.title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .aspectRatio(0.783f)
+                .fillMaxSize()
+        )
     }
 }
 
@@ -181,19 +214,20 @@ private fun MovieDetail(
             .padding(horizontal = 20.dp)
     ) {
         item {
-            Synopsis(uiState)
+            MovieSynopsis(uiState)
         }
         item {
-            Comments(uiState)
+            MovieComments(uiState)
         }
         item {
-            MoreLikeThis(uiState, viewModel, navController)
+            MovieMoreLikeThis(uiState, viewModel, navController)
         }
     }
 }
 
+
 @Composable
-private fun Synopsis(uiState: ApiState) {
+private fun MovieSynopsis(uiState: ApiState) {
     Text(
         text = stringResource(R.string.sinopse),
         color = Color.White,
@@ -211,7 +245,7 @@ private fun Synopsis(uiState: ApiState) {
 }
 
 @Composable
-private fun Comments(uiState: ApiState) {
+private fun MovieComments(uiState: ApiState) {
     Text(
         text = stringResource(R.string.comentarios),
         color = Color.White,
@@ -271,7 +305,7 @@ private fun Comments(uiState: ApiState) {
 }
 
 @Composable
-private fun MoreLikeThis(
+private fun MovieMoreLikeThis(
     uiState: ApiState,
     viewModel: ApiViewModel,
     navController: NavHostController
