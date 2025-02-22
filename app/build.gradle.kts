@@ -49,7 +49,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -59,6 +58,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.core.splashscreen)
 
     // Networking - Retrofit & OkHttp
     implementation(libs.retrofit)
@@ -74,17 +74,34 @@ dependencies {
     // Image Loading - Coil
     implementation(libs.coil.kt.coil.compose)
 
-    // Testing
+    // JUnit
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+
+    // Mockito Core
+    testImplementation(libs.mockito.core)
+
+    // Mockito para Kotlin
+    testImplementation(libs.mockito.kotlin)
+
+    // Mockito para integração com coroutines
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    // Mockito para testes com Hilt
+    testImplementation(libs.mockito.inline)
+
+    // Hilt para injeção de dependência em testes
+    testImplementation(libs.hilt.android.testing.v250)
+    kspTest(libs.hilt.android.compiler.v250)
+
+    // Testes instrumentados (Android)
+    androidTestImplementation(libs.androidx.junit.v115)
+    androidTestImplementation(libs.androidx.espresso.core.v351)
+    androidTestImplementation(platform(libs.androidx.compose.bom.v20231000))
+    androidTestImplementation(libs.ui.test.junit4)
 
     // Debugging
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.androidx.core.splashscreen)
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.1-alpha")
-
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 }

@@ -1,9 +1,7 @@
 package com.example.movie2you.viewmodel
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie2you.R
 import com.example.movie2you.data.api.ApiRepository
 import com.example.movie2you.data.model.Movie
 import com.example.movie2you.data.model.MovieDetailsResponse
