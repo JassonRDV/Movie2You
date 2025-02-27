@@ -98,7 +98,7 @@ dependencies {
     // Testes instrumentados (Android)
     androidTestImplementation(libs.androidx.junit.v115)
     androidTestImplementation(libs.androidx.espresso.core.v351)
-    androidTestImplementation(platform(libs.androidx.compose.bom.v20231000))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
 
     // Debugging
