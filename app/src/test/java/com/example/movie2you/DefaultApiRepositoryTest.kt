@@ -6,17 +6,14 @@ import com.example.movie2you.data.model.Movie
 import com.example.movie2you.data.model.MovieResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import okio.IOException
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.assertThrows
 import org.mockito.Mock
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import org.mockito.kotlin.doThrow
 
 @ExperimentalCoroutinesApi
 class DefaultApiRepositoryTest {
