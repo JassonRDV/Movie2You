@@ -10,7 +10,7 @@
 
 **Features:**
 * ✅ Listing movies by category (e.g., Popular, Top Rated, Upcoming).
-* ✅ Detailed view for each movie (title, overview, release date, rating, etc.).
+* ✅ Detailed view for each movie (title, overview, rating, etc.).
 * ✅ Intuitive and functional user interface.
 
 **Technologies:**
@@ -27,7 +27,7 @@
 <p align="left">
   <a href="https://www.linkedin.com/in/jasson-ramos-66b897340/" target="_blank">
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
-  </a> ✉️
+  </a> 
 </p>
 
 **Setup:**
