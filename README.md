@@ -1,6 +1,4 @@
-# 🎬 Movie App Android - Portfolio Project
-
-**Purpose:** 🎯 To demonstrate skills in Android and Kotlin development for a portfolio project.
+# 🎬 Movie App Android - Job Application Challenge
 
 **Features:**
 * ✅ Listing movies by category (e.g., Popular, Top Rated, Upcoming).
@@ -17,9 +15,9 @@
 
 <table align = "center" style = "border-collapse: collapse;">
   <tr>
-    <td style = "border: none;"><img src="https://github.com/JassonRDV/pokedex_job_vacancy_test_result/blob/main/images/1.png" width="200" alt="Movie App Screenshot 1 (Replace with your screenshots)"></td>
-    <td style = "border: none;"><img src="https://github.com/JassonRDV/pokedex_job_vacancy_test_result/blob/main/images/2.png" width="200" alt="Movie App Screenshot 2 (Replace with your screenshots)"></td>
-    <td style = "border: none;"><img src="https://github.com/JassonRDV/pokedex_job_vacancy_test_result/blob/main/images/3.png" width="200" alt="Movie App Screenshot 3 (Replace with your screenshots)"></td>
+    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/1.png" width="200" alt="Movie App Screenshot 1 (Replace with your screenshots)"></td>
+    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/2.png" width="200" alt="Movie App Screenshot 2 (Replace with your screenshots)"></td>
+    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/3.png" width="200" alt="Movie App Screenshot 3 (Replace with your screenshots)"></td>
   </tr>
 </table>
 
@@ -31,8 +29,6 @@
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
   </a> ✉️
 </p>
-
-**License:** 🛡️ MIT License 🔓
 
 **Setup:**
 
@@ -54,5 +50,3 @@ To use this application, you need to add your TheMovieDB API key. Follow these s
     ```
 
 4.  Replace `"YOUR_API_KEY"` with your actual API key from TheMovieDB ([https://www.themoviedb.org/](https://www.themoviedb.org/)).
-
-**Note:** The screenshots are placeholders. Please replace the image URLs with actual screenshots of your Movie App.
