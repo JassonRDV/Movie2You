@@ -3,8 +3,8 @@ package com.example.movie2you.data.api
 import com.example.movie2you.data.model.MovieDetailsResponse
 import com.example.movie2you.data.model.MovieResponse
 import com.example.movie2you.data.model.ReviewResponse
-import retrofit2.http.Path
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -19,7 +19,7 @@ interface ApiService {
         @Query("with_release_type") withReleaseType: String = "2|3",
         @Query("release_date.gte") minDate: String = "2025-01-15",
         @Query("release_date.lte") maxDate: String = "2025-02-26"
-    ) : MovieResponse
+    ): MovieResponse
 
     @GET("movie/top_rated")
     suspend fun getTopRated(
@@ -31,7 +31,7 @@ interface ApiService {
         @Query("with_release_type") withReleaseType: String = "2|3",
         @Query("release_date.gte") minDate: String = "2025-01-15",
         @Query("release_date.lte") maxDate: String = "2025-02-26"
-    ) : MovieResponse
+    ): MovieResponse
 
     @GET("movie/upcoming")
     suspend fun getUpcoming(
@@ -43,7 +43,7 @@ interface ApiService {
         @Query("with_release_type") withReleaseType: String = "2|3",
         @Query("release_date.gte") minDate: String = "2025-01-15",
         @Query("release_date.lte") maxDate: String = "2025-02-26"
-    ) : MovieResponse
+    ): MovieResponse
 
     @GET("movie/popular")
     suspend fun getPopular(
@@ -55,25 +55,25 @@ interface ApiService {
         @Query("with_release_type") withReleaseType: String = "2|3",
         @Query("release_date.gte") minDate: String = "2025-01-15",
         @Query("release_date.lte") maxDate: String = "2025-02-26"
-    ) : MovieResponse
+    ): MovieResponse
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: Int,
         @Query("language") language: String = "en-US",
-    ) : MovieDetailsResponse
+    ): MovieDetailsResponse
 
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovies(
         @Path("movie_id") movieId: Int,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
-    ) : MovieResponse
+    ): MovieResponse
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviews(
         @Path("movie_id") movieId: Int,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
-    ) : ReviewResponse
+    ): ReviewResponse
 }
