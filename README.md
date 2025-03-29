@@ -1,3 +1,11 @@
+<table align = "center" style = "border-collapse: collapse;">
+  <tr>
+    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/1.png" width="200" alt="Movie App Screenshot 1 (Replace with your screenshots)"></td>
+    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/2.png" width="200" alt="Movie App Screenshot 2 (Replace with your screenshots)"></td>
+    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/3.png" width="200" alt="Movie App Screenshot 3 (Replace with your screenshots)"></td>
+  </tr>
+</table>
+
 # 🎬 Movie App Android - Job Application Challenge
 
 **Features:**
@@ -12,14 +20,6 @@
   <img src="https://img.shields.io/badge/TheMovieDB-01D277?style=for-the-badge&logo=themoviedb&logoColor=white" alt="TheMovieDB"/>
   <img src="https://img.shields.io/badge/Jetpack_Compose-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose"/>
 </p>
-
-<table align = "center" style = "border-collapse: collapse;">
-  <tr>
-    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/1.png" width="200" alt="Movie App Screenshot 1 (Replace with your screenshots)"></td>
-    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/2.png" width="200" alt="Movie App Screenshot 2 (Replace with your screenshots)"></td>
-    <td style = "border: none;"><img src="https://github.com/JassonRDV/movie2you_job_vacancy_test_result/blob/master/images/3.png" width="200" alt="Movie App Screenshot 3 (Replace with your screenshots)"></td>
-  </tr>
-</table>
 
 **Skills:** 💻 Android development, 🚀 Kotlin, 🎬 Consuming RESTful APIs (TheMovieDB), 🎨 Jetpack Compose
 
