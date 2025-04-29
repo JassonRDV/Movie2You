@@ -6,7 +6,7 @@
   </tr>
 </table>
 
-# 🎬 Movie App Android - Job Application Challenge
+# 🎬 Movie App Android
 
 **Features:**
 * ✅ Listing movies by category (e.g., Popular, Top Rated, Upcoming).
