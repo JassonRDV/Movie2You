@@ -6,7 +6,7 @@
   </tr>
 </table>
 
-# Movie App Android
+# Movie Nativo Android
 
 **Features:**
 * ✅ Listing movies by category (e.g., Popular, Top Rated, Upcoming).
