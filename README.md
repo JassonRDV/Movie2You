@@ -21,7 +21,7 @@
   <img src="https://img.shields.io/badge/TheMovieDB-01D277?style=for-the-badge&logo=themoviedb&logoColor=white" alt="TheMovieDB"/>
 </p>
 
-**Skills:** Android development, Kotlin, Consuming RESTful APIs (TheMovieDB), MVVM, repository pattern and Jetpack Compose
+**Skills:** Android development, Kotlin, Consuming RESTful APIs (TheMovieDB), MVVM, repository pattern, Navigation Component and Jetpack Compose
 
 **Contact:**
 <p align="left">
