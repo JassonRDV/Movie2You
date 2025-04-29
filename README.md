@@ -6,7 +6,7 @@
   </tr>
 </table>
 
-# 🎬 Movie App Android
+# Movie App Android
 
 **Features:**
 * ✅ Listing movies by category (e.g., Popular, Top Rated, Upcoming).
@@ -15,13 +15,13 @@
 
 **Technologies:**
 <p align="left">
-  <img src="https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"/>
   <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android"/>
-  <img src="https://img.shields.io/badge/TheMovieDB-01D277?style=for-the-badge&logo=themoviedb&logoColor=white" alt="TheMovieDB"/>
+  <img src="https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"/>
   <img src="https://img.shields.io/badge/Jetpack_Compose-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose"/>
+  <img src="https://img.shields.io/badge/TheMovieDB-01D277?style=for-the-badge&logo=themoviedb&logoColor=white" alt="TheMovieDB"/>
 </p>
 
-**Skills:** 💻 Android development, 🚀 Kotlin, 🎬 Consuming RESTful APIs (TheMovieDB), 🎨 Jetpack Compose
+**Skills:** Android development, Kotlin, Consuming RESTful APIs (TheMovieDB), MVVM, repository pattern and Jetpack Compose
 
 **Contact:**
 <p align="left">
